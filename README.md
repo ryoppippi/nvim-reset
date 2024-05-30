@@ -34,11 +34,11 @@ You can customize the behavior of nvim-reset by passing options to the `setup` f
     ignore_maps = {
       {
         mode = "n",
-        lhs = "<leader>f"
+        lhs = "gc"
       },
       {
-        mode = {"i", "v"},
-        lhs = "<C-s>"
+        mode = {"i", "x"},
+        lhs = "Q"
       }
     }
   }
