@@ -30,6 +30,7 @@ You can customize the behavior of nvim-reset by passing options to the `setup` f
 {
   "ryoppippi/nvim-reset",
   opts = {
+    create_plugin_keymap = false,
     ignore_maps = {
       {
         mode = "n",
@@ -45,6 +46,8 @@ You can customize the behavior of nvim-reset by passing options to the `setup` f
 ```
 
 In this example, the `ignore_maps` option is used to specify keymaps that should not be reset. The `mode` can be either a single mode string or a table of mode strings, and `lhs` represents the left-hand side of the keymap.
+
+When `create_plugin_keymap` is set to `true`, nvim-reset will create a keymap that can be used to reset keymaps like `<Plug>-NvimReset-[[mode]]-[[lhs]]`.
 
 *You must call `setup` function before configuring your own keymaps. Otherwise, your keymaps will be reset.*
 

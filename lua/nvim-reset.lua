@@ -6,6 +6,7 @@
 
 --- @class NvimResetOptions
 --- @field ignore_maps? NvimResetIgnoreOptions
+--- @field create_plugin_keymap? boolean
 
 local M = {}
 
@@ -59,7 +60,8 @@ local function flattenIgnoreList(ignore_map)
 end
 
 ---@param ignore_map NvimResetIgnoreOptions
-local function reset(ignore_map)
+---@param create_plugin_keymap boolean
+local function reset(ignore_map, create_plugin_keymap)
 	vim.iter(modes):each(function(mode)
 		local keymaps = vim.api.nvim_get_keymap(mode)
 		vim.iter(keymaps)
@@ -70,6 +72,9 @@ local function reset(ignore_map)
 			end)
 			:each(function(keymap)
 				pcall(vim.keymap.del, keymap.mode, keymap.lhs)
+				if create_plugin_keymap then
+					vim.keymap.set("n", ("<Plug>-NvimReset-%s-%s"):format(keymap.mode, keymap.lhs), keymap.rhs)
+				end
 			end)
 	end)
 end
@@ -77,8 +82,9 @@ end
 --- @param opts NvimResetOptions
 function M.setup(opts)
 	local ignore_maps = opts.ignore_maps or {}
+	local create_plugin_keymap = opts.create_plugin_keymap or false
 	local flatten_ignore_list = flattenIgnoreList(ignore_maps)
-	reset(flatten_ignore_list)
+	reset(flatten_ignore_list, create_plugin_keymap)
 end
 
 return M
